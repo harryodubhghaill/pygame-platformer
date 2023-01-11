@@ -15,3 +15,6 @@ tile_size = 64
 
 screen_width = 1600
 screen_height = tile_size * len(level_map)
+
+screen_limit_right = screen_width - (screen_width * 0.15)
+screen_limit_left = screen_width * 0.15
