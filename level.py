@@ -197,6 +197,10 @@ class Level:
         self.terrain_sprites.update(self.world_shift)
         self.terrain_sprites.draw(self.display_surface)
 
+        # enemies
+        self.enemy_sprites.update(self.world_shift)
+        self.enemy_sprites.draw(self.display_surface)
+
         # crate
         self.crate_sprites.update(self.world_shift)
         self.crate_sprites.draw(self.display_surface)
@@ -212,10 +216,6 @@ class Level:
         # coins
         self.coin_sprites.update(self.world_shift)
         self.coin_sprites.draw(self.display_surface)
-
-        # enemies
-        self.enemy_sprites.update(self.world_shift)
-        self.enemy_sprites.draw(self.display_surface)
 
 
 
