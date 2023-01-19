@@ -37,10 +37,14 @@ class Level:
         enemy_layout = import_csv_layout(level_data['enemies'])
         self.enemy_sprites = self.create_tile_group(enemy_layout, 'enemies')
 
+        # constraint
+        constraint_layout = import_csv_layout(level_data['constraints'])
+        self.constraint_sprites = self.create_tile_group(constraint_layout, 'constraints')
+
         # level setup
         self.display_surface = surface
         self.setup_level(level_data)
-        self.world_shift = 0
+        self.world_shift = -3
         self.current_x = 0
 
         # dust
@@ -83,10 +87,18 @@ class Level:
                     if type == 'enemies':
                         sprite = Enemy(tile_size, x, y)
 
+                    if type == 'constraints':
+                        sprite = Tile(tile_size, x, y)
+
 
                     sprite_group.add(sprite)
 
         return sprite_group
+
+    def enemy_collision_reverse(self):
+        for enemy in self.enemy_sprites.sprites():
+            if pygame.sprite.spritecollide(enemy, self.constraint_sprites, False):
+                enemy.reverse()
 
     def create_jump_particles(self, pos):
         if self.player.sprite.facing_right:
@@ -199,6 +211,8 @@ class Level:
 
         # enemies
         self.enemy_sprites.update(self.world_shift)
+        self.constraint_sprites.update(self.world_shift)
+        self.enemy_collision_reverse()
         self.enemy_sprites.draw(self.display_surface)
 
         # crate
