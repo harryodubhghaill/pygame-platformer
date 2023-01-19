@@ -2,6 +2,7 @@ import pygame
 from tiles import Tile, StaticTile, Crate, Coin, Palm
 from settings import tile_size, screen_limit_right, screen_limit_left
 from player import Player
+from enemy import Enemy
 from particles import ParticleEffect
 from support import import_csv_layout, import_cut_graphics
 
@@ -31,6 +32,10 @@ class Level:
         # background palms
         bg_palm_layout = import_csv_layout(level_data['bg palms'])
         self.bg_palm_sprites = self.create_tile_group(bg_palm_layout, 'bg palms')
+
+        # enemy
+        enemy_layout = import_csv_layout(level_data['enemies'])
+        self.enemy_sprites = self.create_tile_group(enemy_layout, 'enemies')
 
         # level setup
         self.display_surface = surface
@@ -74,6 +79,9 @@ class Level:
 
                     if type == 'bg palms':
                         sprite = Palm(tile_size, x, y, './graphics/terrain/palm_bg', 64)
+
+                    if type == 'enemies':
+                        sprite = Enemy(tile_size, x, y)
 
 
                     sprite_group.add(sprite)
@@ -204,6 +212,10 @@ class Level:
         # coins
         self.coin_sprites.update(self.world_shift)
         self.coin_sprites.draw(self.display_surface)
+
+        # enemies
+        self.enemy_sprites.update(self.world_shift)
+        self.enemy_sprites.draw(self.display_surface)
 
 
 
