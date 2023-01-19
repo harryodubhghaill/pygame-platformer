@@ -28,6 +28,10 @@ class Level:
         fg_palm_layout = import_csv_layout(level_data['fg palms'])
         self.fg_palm_sprites = self.create_tile_group(fg_palm_layout, 'fg palms')
 
+        # background palms
+        bg_palm_layout = import_csv_layout(level_data['bg palms'])
+        self.bg_palm_sprites = self.create_tile_group(bg_palm_layout, 'bg palms')
+
         # level setup
         self.display_surface = surface
         self.setup_level(level_data)
@@ -67,6 +71,9 @@ class Level:
                     if type == 'fg palms':
                         if val == '0': sprite = Palm(tile_size, x, y, './graphics/terrain/palm_small', 38)
                         if val == '1': sprite = Palm(tile_size, x, y, './graphics/terrain/palm_large', 64)
+
+                    if type == 'bg palms':
+                        sprite = Palm(tile_size, x, y, './graphics/terrain/palm_bg', 64)
 
 
                     sprite_group.add(sprite)
@@ -173,6 +180,10 @@ class Level:
         # dust particles
         # self.dust_sprite.update(self.world_shift)
         # self.dust_sprite.draw(self.display_surface)
+
+        # background palms
+        self.bg_palm_sprites.update(self.world_shift)
+        self.bg_palm_sprites.draw(self.display_surface)
 
         # level tiles
         self.terrain_sprites.update(self.world_shift)
