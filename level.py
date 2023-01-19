@@ -1,5 +1,5 @@
 import pygame
-from tiles import Tile, StaticTile
+from tiles import Tile, StaticTile, Crate
 from settings import tile_size, screen_limit_right, screen_limit_left
 from player import Player
 from particles import ParticleEffect
@@ -16,10 +16,14 @@ class Level:
         grass_layout = import_csv_layout(level_data['grass'])
         self.grass_sprites = self.create_tile_group(grass_layout, 'grass')
 
+        # crates
+        crate_layout = import_csv_layout(level_data['crates'])
+        self.crate_sprites = self.create_tile_group(crate_layout, 'crates')
+
         # level setup
         self.display_surface = surface
         self.setup_level(level_data)
-        self.world_shift = 0
+        self.world_shift = -5
         self.current_x = 0
 
         # dust
@@ -44,6 +48,9 @@ class Level:
                         grass_tile_list = import_cut_graphics('./graphics/decoration/grass/grass.png')
                         tile_surface = grass_tile_list[int(val)]
                         sprite = StaticTile(tile_size, x, y, tile_surface)
+                    
+                    if type == 'crates':
+                        sprite = Crate(tile_size, x, y)
 
                     sprite_group.add(sprite)
 
@@ -157,6 +164,10 @@ class Level:
         # grass
         self.grass_sprites.update(self.world_shift)
         self.grass_sprites.draw(self.display_surface)
+
+        # crate
+        self.crate_sprites.update(self.world_shift)
+        self.crate_sprites.draw(self.display_surface)
 
         # self.tiles.draw(self.display_surface)
         # self.scroll_x()
