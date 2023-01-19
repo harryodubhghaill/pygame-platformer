@@ -189,13 +189,13 @@ class Level:
         self.terrain_sprites.update(self.world_shift)
         self.terrain_sprites.draw(self.display_surface)
 
-        # grass
-        self.grass_sprites.update(self.world_shift)
-        self.grass_sprites.draw(self.display_surface)
-
         # crate
         self.crate_sprites.update(self.world_shift)
         self.crate_sprites.draw(self.display_surface)
+
+        # grass
+        self.grass_sprites.update(self.world_shift)
+        self.grass_sprites.draw(self.display_surface)
 
         # foreground palms
         self.fg_palm_sprites.update(self.world_shift)
