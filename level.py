@@ -27,7 +27,7 @@ class Level:
         # level setup
         self.display_surface = surface
         self.setup_level(level_data)
-        self.world_shift = -5
+        self.world_shift = 0
         self.current_x = 0
 
         # dust
