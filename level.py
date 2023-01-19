@@ -3,9 +3,12 @@ from tiles import Tile
 from settings import tile_size, screen_limit_right, screen_limit_left
 from player import Player
 from particles import ParticleEffect
+from support import import_csv_layout
 
 class Level:
     def __init__(self, level_data, surface):
+
+        terrain_layout = import_csv_layout(level_data['terrain'])
 
         # level setup
         self.display_surface = surface
@@ -115,18 +118,18 @@ class Level:
     def run(self):
 
         # dust particles
-        self.dust_sprite.update(self.world_shift)
-        self.dust_sprite.draw(self.display_surface)
+        # self.dust_sprite.update(self.world_shift)
+        # self.dust_sprite.draw(self.display_surface)
 
         # level tiles
         self.tiles.update(self.world_shift)
         self.tiles.draw(self.display_surface)
-        self.scroll_x()
+        # self.scroll_x()
 
         # player
-        self.player.update()
-        self.horizontal_movement_collision()
-        self.get_player_on_ground()
-        self.vertical_movement_collision()
-        self.create_landing_dust()
-        self.player.draw(self.display_surface)
+        # self.player.update()
+        # self.horizontal_movement_collision()
+        # self.get_player_on_ground()
+        # self.vertical_movement_collision()
+        # self.create_landing_dust()
+        # self.player.draw(self.display_surface)
