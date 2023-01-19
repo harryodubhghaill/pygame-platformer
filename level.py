@@ -1,5 +1,5 @@
 import pygame
-from tiles import Tile, StaticTile, Crate, AnimatedTile
+from tiles import Tile, StaticTile, Crate, Coin
 from settings import tile_size, screen_limit_right, screen_limit_left
 from player import Player
 from particles import ParticleEffect
@@ -57,7 +57,7 @@ class Level:
                         sprite = Crate(tile_size, x, y)
 
                     if type == 'coins':
-                        sprite = AnimatedTile(tile_size, x, y, './graphics/coins/gold')
+                        sprite = Coin(tile_size, x, y, './graphics/coins/gold')
 
 
                     sprite_group.add(sprite)
