@@ -65,7 +65,8 @@ class Level:
                         if val == '1': sprite = Coin(tile_size, x, y, './graphics/coins/silver')
 
                     if type == 'fg palms':
-                        sprite = Palm(tile_size, x, y, './graphics/terrain/palm_small')
+                        if val == '0': sprite = Palm(tile_size, x, y, './graphics/terrain/palm_small', 38)
+                        if val == '1': sprite = Palm(tile_size, x, y, './graphics/terrain/palm_large', 64)
 
 
                     sprite_group.add(sprite)
@@ -185,13 +186,15 @@ class Level:
         self.crate_sprites.update(self.world_shift)
         self.crate_sprites.draw(self.display_surface)
 
+        # foreground palms
+        self.fg_palm_sprites.update(self.world_shift)
+        self.fg_palm_sprites.draw(self.display_surface)
+
         # coins
         self.coin_sprites.update(self.world_shift)
         self.coin_sprites.draw(self.display_surface)
 
-        # foreground palms
-        self.fg_palm_sprites.update(self.world_shift)
-        self.fg_palm_sprites.draw(self.display_surface)
+
 
         # self.tiles.draw(self.display_surface)
         # self.scroll_x()
