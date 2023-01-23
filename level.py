@@ -13,7 +13,7 @@ class Level:
         # level setup
         self.display_surface = surface
         self.setup_level(level_data)
-        self.world_shift = -3
+        self.world_shift = 0
         self.current_x = 0
 
         # player
@@ -58,7 +58,7 @@ class Level:
         self.sky = Sky(8)
         level_width = len(terrain_layout[0]) * tile_size
         self.water = Water(screen_height - 20, level_width)
-        self.clouds = Clouds(400, level_width, 20)
+        self.clouds = Clouds(400, level_width, 35)
 
         # dust
         self.dust_sprite = pygame.sprite.GroupSingle()
@@ -114,7 +114,8 @@ class Level:
                 x = col_index * tile_size
                 y = row_index * tile_size
                 if val == '0':
-                    print("player goes here")
+                    sprite = Player((x, y), self.display_surface, self.create_jump_particles)
+                    self.player.add(sprite)
                 if val == '1':
                     hat_surface = pygame.image.load('./graphics/character/hat.png').convert_alpha()
                     sprite = StaticTile(tile_size, x, y, hat_surface)
@@ -183,8 +184,9 @@ class Level:
     def horizontal_movement_collision(self):
         player = self.player.sprite
         player.rect.x += player.direction.x * player.speed
+        collidable_sprites = self.terrain_sprites.sprites() + self.crate_sprites.sprites() + self.fg_palm_sprites.sprites()
 
-        for sprite in self.tiles.sprites():
+        for sprite in collidable_sprites:
             if sprite.rect.colliderect(player.rect):
                 if player.direction.x < 0:
                     player.rect.left = sprite.rect.right
@@ -203,8 +205,9 @@ class Level:
     def vertical_movement_collision(self):
         player = self.player.sprite
         player.apply_gravity()
+        collidable_sprites = self.terrain_sprites.sprites() + self.crate_sprites.sprites() + self.fg_palm_sprites.sprites()
 
-        for sprite in self.tiles.sprites():
+        for sprite in collidable_sprites:
             if sprite.rect.colliderect(player.rect):
                 if player.direction.y > 0:
                     player.rect.bottom = sprite.rect.top
@@ -261,6 +264,10 @@ class Level:
         self.coin_sprites.draw(self.display_surface)
 
         # player sprites
+        self.player.update()
+        self.horizontal_movement_collision()
+        self.vertical_movement_collision()
+        self.player.draw(self.display_surface)
         self.goal.update(self.world_shift)
         self.goal.draw(self.display_surface)
 
@@ -268,12 +275,9 @@ class Level:
         self.water.draw(self.display_surface, self.world_shift)
 
         # self.tiles.draw(self.display_surface)
-        # self.scroll_x()
+        self.scroll_x()
 
         # player
-        # self.player.update()
-        # self.horizontal_movement_collision()
         # self.get_player_on_ground()
-        # self.vertical_movement_collision()
         # self.create_landing_dust()
-        # self.player.draw(self.display_surface)
+        
