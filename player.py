@@ -41,7 +41,6 @@ class Player(pygame.sprite.Sprite):
     def import_dust_run_particles(self):
         self.dust_run_particles = import_folder('./graphics/character/dust_particles/run')
 
-
     def animate(self):
         animation = self.animations[self.status]
 

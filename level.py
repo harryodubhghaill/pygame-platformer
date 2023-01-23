@@ -5,6 +5,7 @@ from player import Player
 from enemy import Enemy
 from particles import ParticleEffect
 from support import import_csv_layout, import_cut_graphics
+from decoration import Sky
 
 class Level:
     def __init__(self, level_data, surface):
@@ -52,6 +53,9 @@ class Level:
         # constraint
         constraint_layout = import_csv_layout(level_data['constraints'])
         self.constraint_sprites = self.create_tile_group(constraint_layout, 'constraints')
+
+        # decoration
+        self.sky = Sky(8)
 
         # dust
         self.dust_sprite = pygame.sprite.GroupSingle()
@@ -112,6 +116,7 @@ class Level:
                     hat_surface = pygame.image.load('./graphics/character/hat.png').convert_alpha()
                     sprite = StaticTile(tile_size, x, y, hat_surface)
                     self.goal.add(sprite)
+
     def enemy_collision_reverse(self):
         for enemy in self.enemy_sprites.sprites():
             if pygame.sprite.spritecollide(enemy, self.constraint_sprites, False):
@@ -218,6 +223,9 @@ class Level:
         # self.dust_sprite.update(self.world_shift)
         # self.dust_sprite.draw(self.display_surface)
 
+        # decoration
+        self.sky.draw(self.display_surface)
+
         # background palms
         self.bg_palm_sprites.update(self.world_shift)
         self.bg_palm_sprites.draw(self.display_surface)
@@ -251,8 +259,6 @@ class Level:
         # player sprites
         self.goal.update(self.world_shift)
         self.goal.draw(self.display_surface)
-
-
 
         # self.tiles.draw(self.display_surface)
         # self.scroll_x()
