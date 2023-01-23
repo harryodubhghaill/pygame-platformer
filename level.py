@@ -225,10 +225,6 @@ class Level:
 
     def run(self):
 
-        # dust particles
-        # self.dust_sprite.update(self.world_shift)
-        # self.dust_sprite.draw(self.display_surface)
-
         # sky
         self.sky.draw(self.display_surface)
         self.clouds.draw(self.display_surface, self.world_shift)
@@ -263,21 +259,21 @@ class Level:
         self.coin_sprites.update(self.world_shift)
         self.coin_sprites.draw(self.display_surface)
 
+        # dust particles
+        self.dust_sprite.update(self.world_shift)
+        self.dust_sprite.draw(self.display_surface)
+
         # player sprites
         self.player.update()
         self.horizontal_movement_collision()
+        self.get_player_on_ground()
         self.vertical_movement_collision()
+        self.create_landing_dust()
+        self.scroll_x()
         self.player.draw(self.display_surface)
         self.goal.update(self.world_shift)
         self.goal.draw(self.display_surface)
 
         # water
         self.water.draw(self.display_surface, self.world_shift)
-
-        # self.tiles.draw(self.display_surface)
-        self.scroll_x()
-
-        # player
-        # self.get_player_on_ground()
-        # self.create_landing_dust()
         
