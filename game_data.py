@@ -87,3 +87,12 @@ level_5 = {
 	'player': './levels/0/level_0_player.csv',
 	'grass': './levels/0/level_0_grass.csv'
 }
+
+levels = {
+	0: level_0,
+	1: level_1,
+	2: level_2,
+	3: level_3,
+	4: level_4,
+	5: level_5
+}
