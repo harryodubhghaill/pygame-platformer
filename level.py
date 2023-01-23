@@ -5,7 +5,7 @@ from player import Player
 from enemy import Enemy
 from particles import ParticleEffect
 from support import import_csv_layout, import_cut_graphics
-from decoration import Sky, Water
+from decoration import Sky, Water, Clouds
 
 class Level:
     def __init__(self, level_data, surface):
@@ -57,7 +57,8 @@ class Level:
         # decoration
         self.sky = Sky(8)
         level_width = len(terrain_layout[0]) * tile_size
-        self.water = Water(screen_height - 40, level_width)
+        self.water = Water(screen_height - 20, level_width)
+        self.clouds = Clouds(400, level_width, 20)
 
         # dust
         self.dust_sprite = pygame.sprite.GroupSingle()
@@ -225,8 +226,9 @@ class Level:
         # self.dust_sprite.update(self.world_shift)
         # self.dust_sprite.draw(self.display_surface)
 
-        # decoration
+        # sky
         self.sky.draw(self.display_surface)
+        self.clouds.draw(self.display_surface, self.world_shift)
 
         # background palms
         self.bg_palm_sprites.update(self.world_shift)
