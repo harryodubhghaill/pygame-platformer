@@ -1,11 +1,11 @@
 import pygame
 from tiles import Tile, StaticTile, Crate, Coin, Palm
-from settings import tile_size, screen_limit_right, screen_limit_left
+from settings import tile_size, screen_limit_right, screen_limit_left, screen_height
 from player import Player
 from enemy import Enemy
 from particles import ParticleEffect
 from support import import_csv_layout, import_cut_graphics
-from decoration import Sky
+from decoration import Sky, Water
 
 class Level:
     def __init__(self, level_data, surface):
@@ -56,6 +56,8 @@ class Level:
 
         # decoration
         self.sky = Sky(8)
+        level_width = len(terrain_layout[0]) * tile_size
+        self.water = Water(screen_height - 40, level_width)
 
         # dust
         self.dust_sprite = pygame.sprite.GroupSingle()
@@ -259,6 +261,9 @@ class Level:
         # player sprites
         self.goal.update(self.world_shift)
         self.goal.draw(self.display_surface)
+
+        # water
+        self.water.draw(self.display_surface, self.world_shift)
 
         # self.tiles.draw(self.display_surface)
         # self.scroll_x()
