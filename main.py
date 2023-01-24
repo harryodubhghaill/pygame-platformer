@@ -7,8 +7,8 @@ from game_data import levels
 
 class Game:
     def __init__(self):
-        self.max_level = 2
-        self.overworld = Overworld(1, self.max_level, screen, self.create_level)
+        self.max_level = 0
+        self.overworld = Overworld(0, self.max_level, screen, self.create_level)
         self.status = 'overworld'
 
     def create_level(self, current_level):
