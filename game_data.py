@@ -15,7 +15,6 @@ level_0 = {
 
 level_1 = {
 	'node_pos': (300, 220),
-	'content': 'This is level 1',
 	'node graphics': './graphics/overworld/1',
 	'unlock': 2,
     'terrain': './levels/1/level_1_terrain.csv',
