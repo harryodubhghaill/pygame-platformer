@@ -1,17 +1,28 @@
 import pygame
 from tiles import Tile, StaticTile, Crate, Coin, Palm
-from settings import tile_size, screen_limit_right, screen_limit_left, screen_height
+from settings import tile_size, screen_limit_right, screen_limit_left, screen_height, screen_width
 from player import Player
 from enemy import Enemy
 from particles import ParticleEffect
 from support import import_csv_layout, import_cut_graphics
 from decoration import Sky, Water, Clouds
+from game_data import levels
 
 class Level:
-    def __init__(self, level_data, surface):
+    def __init__(self, current_level, surface):
 
         # level setup
         self.display_surface = surface
+        self.current_level = current_level
+        level_data = levels[current_level]
+        level_content = level_data['content']
+        self.new_max_level = level_data['unlock']
+
+        # level display
+        self.font = pygame.font.Font(None, 40)
+        self.text_surf = self.font.render(level_content, True, 'White')
+        self.text_rect = self.text_surf.get_rect(center = (screen_width / 2, screen_height / 2))
+
         self.setup_level(level_data)
         self.world_shift = 0
         self.current_x = None
@@ -224,56 +235,4 @@ class Level:
             player.on_ceiling = False
 
     def run(self):
-
-        # sky
-        self.sky.draw(self.display_surface)
-        self.clouds.draw(self.display_surface, self.world_shift)
-
-        # background palms
-        self.bg_palm_sprites.update(self.world_shift)
-        self.bg_palm_sprites.draw(self.display_surface)
-
-        # level tiles
-        self.terrain_sprites.update(self.world_shift)
-        self.terrain_sprites.draw(self.display_surface)
-
-        # enemies
-        self.enemy_sprites.update(self.world_shift)
-        self.constraint_sprites.update(self.world_shift)
-        self.enemy_collision_reverse()
-        self.enemy_sprites.draw(self.display_surface)
-
-        # crate
-        self.crate_sprites.update(self.world_shift)
-        self.crate_sprites.draw(self.display_surface)
-
-        # grass
-        self.grass_sprites.update(self.world_shift)
-        self.grass_sprites.draw(self.display_surface)
-
-        # foreground palms
-        self.fg_palm_sprites.update(self.world_shift)
-        self.fg_palm_sprites.draw(self.display_surface)
-
-        # coins
-        self.coin_sprites.update(self.world_shift)
-        self.coin_sprites.draw(self.display_surface)
-
-        # dust particles
-        self.dust_sprite.update(self.world_shift)
-        self.dust_sprite.draw(self.display_surface)
-
-        # player sprites
-        self.player.update()
-        self.horizontal_movement_collision()
-        self.get_player_on_ground()
-        self.vertical_movement_collision()
-        self.create_landing_dust()
-        self.scroll_x()
-        self.player.draw(self.display_surface)
-        self.goal.update(self.world_shift)
-        self.goal.draw(self.display_surface)
-
-        # water
-        self.water.draw(self.display_surface, self.world_shift)
-        
+        self.display_surface.blit(self.text_surf, self.text_rect)
