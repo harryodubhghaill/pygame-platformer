@@ -1,6 +1,7 @@
 import pygame
 from game_data import levels
 from support import import_folder
+from decoration import Sky
 
 class Node(pygame.sprite.Sprite):
     def __init__(self, pos, status, icon_speed, path):
@@ -56,6 +57,7 @@ class Overworld:
         # sprites
         self.setup_nodes()
         self.setup_icon()
+        self.sky = Sky(8)
 
     def setup_nodes(self):
         self.nodes = pygame.sprite.Group()
@@ -116,6 +118,7 @@ class Overworld:
         self.icon.update()
         self.nodes.update()
 
+        self.sky.draw(self.display_surface)
         self.draw_paths()
         self.nodes.draw(self.display_surface)
         self.icon.draw(self.display_surface)
