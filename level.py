@@ -9,7 +9,7 @@ from decoration import Sky, Water, Clouds
 from game_data import levels
 
 class Level:
-    def __init__(self, current_level, surface):
+    def __init__(self, current_level, surface, create_overworld):
 
         # level setup
         self.display_surface = surface
@@ -17,6 +17,7 @@ class Level:
         level_data = levels[current_level]
         level_content = level_data['content']
         self.new_max_level = level_data['unlock']
+        self.create_overworld = create_overworld
 
         # level display
         self.font = pygame.font.Font(None, 40)
@@ -74,6 +75,13 @@ class Level:
         # dust
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
+
+    def input(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_RETURN]:
+            self.create_overworld(self.current_level, self.new_max_level)
+        if keys[pygame.K_ESCAPE]:
+            self.create_overworld(self.current_level, 0)
 
     def create_tile_group(self, layout, type):
         sprite_group = pygame.sprite.Group()
@@ -235,4 +243,5 @@ class Level:
             player.on_ceiling = False
 
     def run(self):
+        self.input()
         self.display_surface.blit(self.text_surf, self.text_rect)
