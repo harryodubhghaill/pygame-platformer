@@ -109,6 +109,8 @@ class Overworld:
         self.input()
         self.update_icon_pos()
         self.icon.update()
+        self.nodes.update()
+
         self.draw_paths()
         self.nodes.draw(self.display_surface)
         self.icon.draw(self.display_surface)
