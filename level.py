@@ -74,6 +74,9 @@ class Level:
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
 
+        # explosions
+        self.explosion_sprites = pygame.sprite.Group()
+
     def input(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RETURN]:
@@ -263,6 +266,9 @@ class Level:
                 enemy_top = enemy.rect.top
                 player_bottom = self.player.sprite.rect.bottom
                 if enemy_top < player_bottom < enemy_center and self.player.sprite.direction.y >= 0:
+                    self.player.sprite.direction.y = -15
+                    explosion_sprite = ParticleEffect(enemy.rect.center, 'explosion')
+                    self.explosion_sprites.add(explosion_sprite)
                     enemy.kill()
 
     def run(self):
@@ -284,6 +290,8 @@ class Level:
         self.constraint_sprites.update(self.world_shift)
         self.enemy_collision_reverse()
         self.enemy_sprites.draw(self.display_surface)
+        self.explosion_sprites.update(self.world_shift)
+        self.explosion_sprites.draw(self.display_surface)
 
         # crate
         self.crate_sprites.update(self.world_shift)
