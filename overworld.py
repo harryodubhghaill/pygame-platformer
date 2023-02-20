@@ -30,7 +30,6 @@ class Node(pygame.sprite.Sprite):
             tint_surface = self.image.copy()
             tint_surface.fill('black', None, pygame.BLEND_RGB_MULT)
             self.image.blit(tint_surface, (0, 0))
-
 class Icon(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
