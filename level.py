@@ -254,6 +254,17 @@ class Level:
             for coin in collided_coins:
                 self.change_coins(coin.value)
 
+    def check_enemy_collisions(self):
+        enemy_collisions = pygame.sprite.spritecollide(self.player.sprite, self.enemy_sprites, False)
+
+        if enemy_collisions:
+            for enemy in enemy_collisions:
+                enemy_center = enemy.rect.centery
+                enemy_top = enemy.rect.top
+                player_bottom = self.player.sprite.rect.bottom
+                if enemy_top < player_bottom < enemy_center and self.player.sprite.direction.y >= 0:
+                    enemy.kill()
+
     def run(self):
 
         # sky
@@ -309,6 +320,7 @@ class Level:
         self.check_win()
 
         self.check_coin_collisions()
+        self.check_enemy_collisions()
 
         # water
         self.water.draw(self.display_surface, self.world_shift)
