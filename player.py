@@ -1,5 +1,6 @@
 import pygame
 from support import import_folder
+from math import sin
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, surface, create_jump_particles, change_health):
         super().__init__()
@@ -32,6 +33,9 @@ class Player(pygame.sprite.Sprite):
 
         # health management
         self.change_health = change_health
+        self.invincible = False
+        self.invincibility_duration = 500
+        self.hurt_time = 0
 
     def import_character_assets(self):
         character_path = './graphics/character/'
@@ -58,6 +62,12 @@ class Player(pygame.sprite.Sprite):
         else:
             flipped_image = pygame.transform.flip(image, True, False)
             self.image = flipped_image
+
+        if self.invincible:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
 
         # set the rect
         if self.on_ground and self.on_right:
@@ -124,10 +134,25 @@ class Player(pygame.sprite.Sprite):
         self.direction.y = self.jump_speed
 
     def get_damage(self):
-        self.change_health(-10)
+        if not self.invincible:
+            self.change_health(-10)
+            self.invincible = True
+            self.hurt_time = pygame.time.get_ticks()
+
+    def invincibility_timer(self):
+        if self.invincible:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.hurt_time >= self.invincibility_duration:
+                self.invincible = False
+
+    def wave_value(self):
+        value = sin(pygame.time.get_ticks())
+        if value >= 0: return 255
+        else: return 0
 
     def update(self):
         self.get_input()
         self.get_status()
         self.animate()
         self.run_dust_animation()
+        self.invincibility_timer()
