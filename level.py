@@ -17,6 +17,10 @@ class Level:
         level_data = levels[self.current_level]
         self.new_max_level = level_data['unlock']
 
+        # audio
+        self.coin_sound = pygame.mixer.Sound('./audio/effects/coin.wav')
+        self.stomp_sound = pygame.mixer.Sound('./audio/effects/stomp.wav')
+
         # level setup
         self.display_surface = surface
         self.setup_level(level_data)
@@ -247,6 +251,7 @@ class Level:
     def check_coin_collisions(self):
         collided_coins = pygame.sprite.spritecollide(self.player.sprite, self.coin_sprites, True)
         if collided_coins:
+            self.coin_sound.play()
             for coin in collided_coins:
                 self.change_coins(coin.value)
 
@@ -263,6 +268,7 @@ class Level:
                     explosion_sprite = ParticleEffect(enemy.rect.center, 'explosion')
                     self.explosion_sprites.add(explosion_sprite)
                     enemy.kill()
+                    self.stomp_sound.play()
                 else:
                     self.player.sprite.get_damage()
 

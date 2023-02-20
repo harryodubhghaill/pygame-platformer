@@ -124,6 +124,7 @@ class Overworld:
                 self.allow_input = True
 
     def run(self):
+        self.input_timer()
         self.input()
         self.update_icon_pos()
         self.icon.update()
