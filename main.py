@@ -35,8 +35,8 @@ class Game:
             self.overworld.run()
         else:
             self.level.run()
-            self.ui.show_health(50, 100)
-            self.ui.show_coins(12)
+            self.ui.show_health(self.cur_health, self.max_health)
+            self.ui.show_coins(self.coins)
 
 # pygame setup
 pygame.init()
