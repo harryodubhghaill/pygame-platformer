@@ -9,7 +9,7 @@ from decoration import Sky, Water, Clouds
 from game_data import levels
 
 class Level:
-    def __init__(self, current_level, surface, create_overworld):
+    def __init__(self, current_level, surface, create_overworld, change_coins):
 
         # overworld connection
         self.create_overworld = create_overworld
@@ -28,6 +28,9 @@ class Level:
         self.player = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.GroupSingle()
         self.player_setup(player_layout)
+
+        # user interface
+        self.change_coins = change_coins
 
         # terrain setup
         terrain_layout = import_csv_layout(level_data['terrain'])
@@ -101,8 +104,8 @@ class Level:
                         sprite = Crate(tile_size, x, y)
 
                     if type == 'coins':
-                        if val == '0': sprite = Coin(tile_size, x, y, './graphics/coins/gold')
-                        if val == '1': sprite = Coin(tile_size, x, y, './graphics/coins/silver')
+                        if val == '0': sprite = Coin(tile_size, x, y, './graphics/coins/gold', 5)
+                        if val == '1': sprite = Coin(tile_size, x, y, './graphics/coins/silver', 1)
 
                     if type == 'fg palms':
                         if val == '0': sprite = Palm(tile_size, x, y, './graphics/terrain/palm_small', 38)
@@ -245,6 +248,12 @@ class Level:
         if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
             self.create_overworld(self.current_level, self.new_max_level)
 
+    def check_coin_collisions(self):
+        collided_coins = pygame.sprite.spritecollide(self.player.sprite, self.coin_sprites, True)
+        if collided_coins:
+            for coin in collided_coins:
+                self.change_coins(coin.value)
+
     def run(self):
 
         # sky
@@ -298,6 +307,8 @@ class Level:
 
         self.check_death()
         self.check_win()
+
+        self.check_coin_collisions()
 
         # water
         self.water.draw(self.display_surface, self.world_shift)
