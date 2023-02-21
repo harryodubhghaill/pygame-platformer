@@ -9,7 +9,7 @@ from decoration import Sky, Water, Clouds
 from game_data import levels
 
 class Level:
-    def __init__(self, current_level, surface, create_overworld, change_coins, change_health, reset_coins):
+    def __init__(self, current_level, surface, create_overworld, change_coins, change_health, reset_after_death):
 
         # overworld connection
         self.create_overworld = create_overworld
@@ -36,7 +36,7 @@ class Level:
 
         # user interface
         self.change_coins = change_coins
-        self.reset_coins = reset_coins
+        self.reset_after_death = reset_after_death
 
         # terrain setup
         terrain_layout = import_csv_layout(level_data['terrain'])
@@ -245,7 +245,7 @@ class Level:
     def check_death(self):
         if self.player.sprite.rect.top > screen_height:
             self.splash_sound.play()
-            self.reset_coins()
+            self.reset_after_death()
             self.create_overworld(self.current_level, 0)
 
     def check_win(self):
