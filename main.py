@@ -28,7 +28,7 @@ class Game:
         self.ui = UI(screen)
 
     def create_level(self, current_level):
-        self.level = Level(current_level, screen, self.create_overworld, self.change_coins, self.change_health)
+        self.level = Level(current_level, screen, self.create_overworld, self.change_coins, self.change_health, self.reset_coins)
         self.status = 'level'
         self.overworld_bg_music.stop()
         self.level_bg_music.play(loops = -1)
@@ -43,6 +43,9 @@ class Game:
 
     def change_coins(self, amount):
         self.coins += amount
+
+    def reset_coins(self):
+        self.coins = 0
 
     def change_health(self, amount):
         self.cur_health += amount

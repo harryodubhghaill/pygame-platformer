@@ -9,7 +9,7 @@ from decoration import Sky, Water, Clouds
 from game_data import levels
 
 class Level:
-    def __init__(self, current_level, surface, create_overworld, change_coins, change_health):
+    def __init__(self, current_level, surface, create_overworld, change_coins, change_health, reset_coins):
 
         # overworld connection
         self.create_overworld = create_overworld
@@ -36,6 +36,7 @@ class Level:
 
         # user interface
         self.change_coins = change_coins
+        self.reset_coins = reset_coins
 
         # terrain setup
         terrain_layout = import_csv_layout(level_data['terrain'])
@@ -243,8 +244,9 @@ class Level:
 
     def check_death(self):
         if self.player.sprite.rect.top > screen_height:
-            self.create_overworld(self.current_level, 0)
             self.splash_sound.play()
+            self.reset_coins()
+            self.create_overworld(self.current_level, 0)
 
     def check_win(self):
         if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
