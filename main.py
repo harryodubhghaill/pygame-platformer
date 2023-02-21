@@ -3,6 +3,7 @@ from settings import *
 from level import Level
 from overworld import Overworld
 from ui import UI
+from menu import Button
 
 class Game:
     def __init__(self):
@@ -24,7 +25,7 @@ class Game:
         # overworld creation
         self.overworld = Overworld(0, self.max_level, screen, self.create_level)
         self.status = 'overworld'
-        self.overworld_bg_music.play(loops = -1)
+        # self.overworld_bg_music.play(loops = -1)
 
         # user interface
         self.ui = UI(screen)
@@ -86,16 +87,20 @@ class Game:
             self.overworld_bg_music.play()
 
     def run(self):
-        if self.status == 'overworld':
-            self.overworld.run()
-        else:
-            self.level.run()
-            self.ui.show_health(self.cur_health, self.max_health)
-            self.ui.show_coins(self.coins)
-            self.ui.show_heart(self.hearts)
-            self.add_heart()
-            self.check_death()
-            self.check_game_over()
+        button_image = pygame.image.load('./graphics/character/run/1.png')
+        test_button = Button(100, 100, button_image)
+        test_button.draw(screen)
+        test_button.is_clicked()
+        # if self.status == 'overworld':
+        #     self.overworld.run()
+        # else:
+        #     self.level.run()
+        #     self.ui.show_health(self.cur_health, self.max_health)
+        #     self.ui.show_coins(self.coins)
+        #     self.ui.show_heart(self.hearts)
+        #     self.add_heart()
+        #     self.check_death()
+        #     self.check_game_over()
 
 # pygame setup
 pygame.init()
