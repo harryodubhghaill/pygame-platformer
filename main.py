@@ -19,6 +19,7 @@ class Game:
         self.level_bg_music.set_volume(0.5)
         self.overworld_bg_music = pygame.mixer.Sound('./audio/overworld_music.wav')
         self.overworld_bg_music.set_volume(0.5)
+        self.game_over_sound = pygame.mixer.Sound('./audio/effects/death.wav')
 
         # overworld creation
         self.overworld = Overworld(0, self.max_level, screen, self.create_level)
@@ -58,17 +59,31 @@ class Game:
     def add_heart(self):
         if self.coins >=10:
             self.hearts += 1
-            self.coins = 0
+            self.coins -= 10
 
-    def check_game_over(self):
-        if self.cur_health <= 0:
+    def check_death(self):
+        if self.cur_health <= 0 and self.hearts > 0:
             self.cur_health = 100
             self.coins = 0
-            self.max_level = 0
+            self.lose_heart()
             self.overworld = Overworld(0, self.max_level, screen, self.create_level)
             self.status = 'overworld'
             self.level_bg_music.stop()
             self.overworld_bg_music.play(loops = -1)
+
+    def check_game_over(self):
+        if self.hearts < 0:
+            self.level_bg_music.stop()
+            self.overworld_bg_music.stop()
+            self.game_over_sound.play()
+            pygame.time.delay(3000)
+            self.cur_health = 100
+            self.coins = 0
+            self.max_level = 0
+            self.hearts = 3
+            self.overworld = Overworld(0, self.max_level, screen, self.create_level)
+            self.status = 'overworld'
+            self.overworld_bg_music.play()
 
     def run(self):
         if self.status == 'overworld':
@@ -79,6 +94,7 @@ class Game:
             self.ui.show_coins(self.coins)
             self.ui.show_heart(self.hearts)
             self.add_heart()
+            self.check_death()
             self.check_game_over()
 
 # pygame setup

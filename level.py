@@ -244,7 +244,7 @@ class Level:
         if player.on_ground and player.direction.y < 0 or player.direction.y > 1:
             player.on_ground = False
 
-    def check_death(self):
+    def check_drowning(self):
         if self.player.sprite.rect.top > screen_height:
             self.splash_sound.play()
             self.reset_after_death()
@@ -334,7 +334,7 @@ class Level:
         self.goal.update(self.world_shift)
         self.goal.draw(self.display_surface)
 
-        self.check_death()
+        self.check_drowning()
         self.check_win()
 
         self.check_coin_collisions()
