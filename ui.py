@@ -17,6 +17,10 @@ class UI:
         self.coin_rect = self.coin.get_rect(topleft = (50, 61))
         self.font = pygame.font.Font('./graphics/ui/ARCADEPI.ttf', 30)
 
+        # heart
+        self.heart = pygame.image.load('./graphics/ui/heart.png').convert_alpha()
+        self.heart_rect = self.heart.get_rect(topleft = (75, 100))
+
     def show_health(self, current, full):
         self.display_surface.blit(self.health_bar, (20, 10))
         current_health_ratio = current / full
@@ -29,3 +33,9 @@ class UI:
         coin_amount_surf = self.font.render(str(amount), False, '#33323d')
         coin_amount_rect = coin_amount_surf.get_rect(midleft = (self.coin_rect.right + 4, self.coin_rect.centery))
         self.display_surface.blit(coin_amount_surf, coin_amount_rect)
+
+    def show_heart(self, hearts):
+        self.display_surface.blit(self.heart, self.heart_rect)
+        heart_amount_surf = self.font.render(str(hearts), False, '#33323d')
+        heart_amount_rect = heart_amount_surf.get_rect(midleft = (self.heart_rect.right + 8, self.heart_rect.centery))
+        self.display_surface.blit(heart_amount_surf, heart_amount_rect)

@@ -12,12 +12,13 @@ class Game:
         self.max_health = 100
         self.cur_health = 100
         self.coins = 0
+        self.hearts = 3
 
         # audio
         self.level_bg_music = pygame.mixer.Sound('./audio/level_music.wav')
-        self.level_bg_music.set_volume(0.75)
+        self.level_bg_music.set_volume(0.5)
         self.overworld_bg_music = pygame.mixer.Sound('./audio/overworld_music.wav')
-        self.overworld_bg_music.set_volume(0.75)
+        self.overworld_bg_music.set_volume(0.5)
 
         # overworld creation
         self.overworld = Overworld(0, self.max_level, screen, self.create_level)
@@ -68,6 +69,7 @@ class Game:
             self.level.run()
             self.ui.show_health(self.cur_health, self.max_health)
             self.ui.show_coins(self.coins)
+            self.ui.show_heart(self.hearts)
             self.check_game_over()
 
 # pygame setup

@@ -252,7 +252,7 @@ class Level:
     def check_win(self):
         if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
             self.win_sound.play()
-            pygame.time.delay(1500)
+            pygame.time.delay(1000)
             self.create_overworld(self.current_level, self.new_max_level)
 
     def check_coin_collisions(self):
