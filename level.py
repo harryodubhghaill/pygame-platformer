@@ -21,6 +21,7 @@ class Level:
         self.coin_sound = pygame.mixer.Sound('./audio/effects/coin.wav')
         self.stomp_sound = pygame.mixer.Sound('./audio/effects/stomp.wav')
         self.splash_sound = pygame.mixer.Sound('./audio/effects/splish.wav')
+        self.win_sound = pygame.mixer.Sound('./audio/effects/level_win.wav')
 
         # level setup
         self.display_surface = surface
@@ -250,6 +251,8 @@ class Level:
 
     def check_win(self):
         if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
+            self.win_sound.play()
+            pygame.time.delay(1500)
             self.create_overworld(self.current_level, self.new_max_level)
 
     def check_coin_collisions(self):
